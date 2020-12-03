@@ -11,7 +11,7 @@ Tips:
  - Nothing saves when you close the program. I didn't want to write files all over my/your machine.
  - Changing a time in the box changes it when you hit the enter key while in the box. 
  - There's no pausing, it restarts the timer from the beginning when resuming from a stopped state.
-  
+ - I just change resize the window manually to hide the options once I have em set how I need em. 
   
   
 Changelog:
