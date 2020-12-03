@@ -23,6 +23,7 @@ namespace EpicRpgTimer
 
         public List<Timeline> Lines;
         public List<System.Windows.Forms.Timer> timers;
+        public System.Windows.Forms.Timer pbar;
         public System.Speech.Synthesis.SpeechSynthesizer ss;
 
         public Form1()
@@ -42,6 +43,7 @@ namespace EpicRpgTimer
             Lines[6].Max = new TimeSpan(3, 54, 0);
             Lines[7].Max = new TimeSpan(7, 48, 0);
             Lines[8].Max = new TimeSpan(7, 48, 0);
+            progressBar1.Maximum = 38;
         }
 
         private void DefaultTimes()
@@ -55,6 +57,7 @@ namespace EpicRpgTimer
             Lines[6].Max = new TimeSpan(6, 0, 0);
             Lines[7].Max = new TimeSpan(12, 0, 0);
             Lines[8].Max = new TimeSpan(12, 0, 0);
+            progressBar1.Maximum = 60;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -74,6 +77,15 @@ namespace EpicRpgTimer
 
             timers = new List<System.Windows.Forms.Timer>();
 
+            pbar = new Timer();
+            pbar.Interval = 1000;
+            pbar.Tick += pbar_Tick;
+            ToolTip tt = new ToolTip();
+            tt.ShowAlways = true;
+            tt.IsBalloon = true;
+            tt.SetToolTip(progressBar1, "Timer bar for \"Hunt,\" click to activate.");
+
+
             for (int i = 0; i < Lines.Count; i++)
             {
                 timers.Add(new System.Windows.Forms.Timer());
@@ -89,12 +101,12 @@ namespace EpicRpgTimer
                 tb.KeyUp += Tb_KeyUp;
             }
 
-            this.ActiveControl = button0;
+            this.ActiveControl = progressBar1;
         }
 
         private void Tb_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.KeyValue.ToString() == "13")
+            if (e.KeyValue.ToString() == "13")
             {
                 try
                 {
@@ -107,10 +119,10 @@ namespace EpicRpgTimer
 
                     Lines[number].Max = new TimeSpan(h, m, s);
                     ((TextBox)sender).BackColor = System.Drawing.SystemColors.Window;
-                    if(cbPopup.Checked)
+                    if (cbPopup.Checked)
                     {
                         MessageBox.Show("Timer " + (number + 1).ToString() + " set to: " + Lines[number].Max.ToString());
-                    }    
+                    }
                 }
                 catch (Exception)
                 {
@@ -161,11 +173,11 @@ namespace EpicRpgTimer
                 tb.BackColor = System.Drawing.Color.PaleGreen;
                 b.Text = "Go";
 
-                if(cbSpeech.Checked)
+                if (cbSpeech.Checked)
                 {
                     ss.Speak("rpg " + ((TextBox)this.Controls.Find("label" + timerNum.ToString(), true).First()).Text);
                 }
-                if(cbDing.Checked)
+                if (cbDing.Checked)
                 {
                     SystemSounds.Beep.Play();
                 }
@@ -183,6 +195,8 @@ namespace EpicRpgTimer
                 DefaultTimes();
             }
 
+            pbar.Stop();
+
             for (int i = 0; i < Lines.Count; i++)
             {
                 TextBox tb = (TextBox)this.Controls.Find("textbox" + i, true).First();
@@ -197,7 +211,7 @@ namespace EpicRpgTimer
 
         private void cbSpeech_CheckedChanged(object sender, EventArgs e)
         {
-            if(cbSpeech.Checked)
+            if (cbSpeech.Checked)
             {
                 ss = new SpeechSynthesizer();
                 ss.SetOutputToDefaultAudioDevice();
@@ -222,12 +236,40 @@ namespace EpicRpgTimer
                 " - Added cooldown presets\n" +
                 "v1.2\n" +
                 " - Added \"always on top\"\n" +
-                "","About");
+                "v1.3\n" +
+                " - Added hunt progress bar" +
+                "", "About");
         }
 
         private void cbAOT_CheckedChanged(object sender, EventArgs e)
         {
             this.TopMost = cbAOT.Checked;
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+            if (progressBar1.Value > 0)
+            {
+                progressBar1.Value = 0;
+                pbar.Stop();
+            }
+            else
+            {
+                progressBar1.Value = 1;
+                pbar.Start();
+            }
+
+        }
+        private void pbar_Tick(object sender, EventArgs e)
+        {
+            if(progressBar1.Value >= progressBar1.Maximum)
+            {
+                progressBar1.Value = 0;
+            }
+            else
+            {
+                progressBar1.PerformStep();
+            }
         }
     }
 }

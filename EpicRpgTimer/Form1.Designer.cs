@@ -50,6 +50,8 @@
             this.cbDing = new System.Windows.Forms.CheckBox();
             this.cbSpeech = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbNotif = new System.Windows.Forms.Label();
+            this.cbAOT = new System.Windows.Forms.CheckBox();
             this.btnAbout = new System.Windows.Forms.Button();
             this.cbPopup = new System.Windows.Forms.CheckBox();
             this.lbCd = new System.Windows.Forms.Label();
@@ -64,7 +66,7 @@
             this.label6 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.TextBox();
-            this.cbAOT = new System.Windows.Forms.CheckBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -265,6 +267,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lbNotif);
             this.groupBox1.Controls.Add(this.cbAOT);
             this.groupBox1.Controls.Add(this.btnAbout);
             this.groupBox1.Controls.Add(this.cbPopup);
@@ -279,6 +282,26 @@
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "▼ Options";
+            // 
+            // lbNotif
+            // 
+            this.lbNotif.AutoSize = true;
+            this.lbNotif.Location = new System.Drawing.Point(28, 19);
+            this.lbNotif.Name = "lbNotif";
+            this.lbNotif.Size = new System.Drawing.Size(65, 13);
+            this.lbNotif.TabIndex = 36;
+            this.lbNotif.Text = "Notifications";
+            // 
+            // cbAOT
+            // 
+            this.cbAOT.AutoSize = true;
+            this.cbAOT.Location = new System.Drawing.Point(43, 108);
+            this.cbAOT.Name = "cbAOT";
+            this.cbAOT.Size = new System.Drawing.Size(92, 17);
+            this.cbAOT.TabIndex = 35;
+            this.cbAOT.Text = "Always on top";
+            this.cbAOT.UseVisualStyleBackColor = true;
+            this.cbAOT.CheckedChanged += new System.EventHandler(this.cbAOT_CheckedChanged);
             // 
             // btnAbout
             // 
@@ -423,22 +446,23 @@
             this.label8.TabIndex = 39;
             this.label8.Text = "test";
             // 
-            // cbAOT
+            // progressBar1
             // 
-            this.cbAOT.AutoSize = true;
-            this.cbAOT.Location = new System.Drawing.Point(43, 108);
-            this.cbAOT.Name = "cbAOT";
-            this.cbAOT.Size = new System.Drawing.Size(92, 17);
-            this.cbAOT.TabIndex = 35;
-            this.cbAOT.Text = "Always on top";
-            this.cbAOT.UseVisualStyleBackColor = true;
-            this.cbAOT.CheckedChanged += new System.EventHandler(this.cbAOT_CheckedChanged);
+            this.progressBar1.Location = new System.Drawing.Point(0, 0);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(0);
+            this.progressBar1.Maximum = 38;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(234, 8);
+            this.progressBar1.Step = 1;
+            this.progressBar1.TabIndex = 40;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(234, 406);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -474,7 +498,7 @@
             this.MinimumSize = new System.Drawing.Size(250, 314);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "EPIC RPG Timer - v1.1";
+            this.Text = "EPIC RPG Timer";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -521,6 +545,8 @@
         private System.Windows.Forms.CheckBox cbPopup;
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.CheckBox cbAOT;
+        private System.Windows.Forms.Label lbNotif;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 
