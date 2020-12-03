@@ -8,11 +8,11 @@ Allows you to use cooldown presets or edit all your own times and labels.
 Has text to speech that can read out labels. Example:"rpg adventure" when the adventure timer finishes.
 
 Tips:
- * Nothing saves when you close the program. I didn't want to write files all over my/your machine.
+ - Nothing saves when you close the program. I didn't want to write files all over my/your machine.
+ - Changing a time in the box changes it when you hit the enter key while in the box. 
+ - There's no pausing, it restarts the timer from the beginning when resuming from a stopped state.
   
- * Changing a time in the box changes it when you hit the enter key while in the box. 
   
- * There's no pausing, it restarts the timer from the beginning when resuming from a stopped state.
   
 Changelog:
 
