@@ -195,6 +195,8 @@ namespace EpicRpgTimer
                 DefaultTimes();
             }
 
+            progressBar1.Value = 0;
+            progressBar1.Maximum += 2;
             pbar.Stop();
 
             for (int i = 0; i < Lines.Count; i++)
@@ -237,7 +239,11 @@ namespace EpicRpgTimer
                 "v1.2\n" +
                 " - Added \"always on top\"\n" +
                 "v1.3\n" +
-                " - Added hunt progress bar" +
+                " - Added hunt progress bar\n" +
+                "v1.3.1 \n" +
+                " - Now clears hunt bar when change cd preset\n" +
+                " - Tacked on 2 seconds to hunt bar\n" +
+                "" +
                 "", "About");
         }
 

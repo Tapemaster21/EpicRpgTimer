@@ -19,7 +19,7 @@ namespace EpicRpgTimer
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 f = new Form1();
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
-            f.Text = "EPIC RPG Timer - v" + v.Major + "." + v.Minor;
+            f.Text = "EPIC RPG Timer - v" + v.Major + "." + v.Minor + (v.Build != 0 ? ("."+v.Build) : (""));
             f.Height = 325;
             Application.Run(f);
 
