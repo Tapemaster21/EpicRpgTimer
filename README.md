@@ -28,3 +28,6 @@ v1.1
  
 v1.2
  - Added "always on top"
+ 
+v1.3
+ - Added hunt progress bar
