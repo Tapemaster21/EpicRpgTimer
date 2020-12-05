@@ -25,39 +25,45 @@ namespace EpicRpgTimer
         public List<System.Windows.Forms.Timer> timers;
         public System.Windows.Forms.Timer pbar;
         public System.Speech.Synthesis.SpeechSynthesizer ss;
+        public List<TimeSpan> ThirtyFive;
+        public List<TimeSpan> Default;
 
         public Form1()
         {
             InitializeComponent();
+
+            ThirtyFive = new List<TimeSpan>();
+            ThirtyFive.Add(new TimeSpan(0, 3, 15));
+            ThirtyFive.Add(new TimeSpan(0, 9, 45));
+            ThirtyFive.Add(new TimeSpan(0, 39, 0));
+            ThirtyFive.Add(new TimeSpan(2, 0, 0));
+            ThirtyFive.Add(new TimeSpan(2, 0, 0));
+            ThirtyFive.Add(new TimeSpan(3, 0, 0));
+            ThirtyFive.Add(new TimeSpan(3, 54, 0));
+            ThirtyFive.Add(new TimeSpan(7, 48, 0));
+            ThirtyFive.Add(new TimeSpan(7, 48, 0));
+
+            Default = new List<TimeSpan>();
+            Default.Add(new TimeSpan(0, 5, 0));
+            Default.Add(new TimeSpan(0, 15, 0));
+            Default.Add(new TimeSpan(1, 0, 0));
+            Default.Add(new TimeSpan(2, 0, 0));
+            Default.Add(new TimeSpan(2, 0, 0));
+            Default.Add(new TimeSpan(3, 0, 0));
+            Default.Add(new TimeSpan(6, 0, 0));
+            Default.Add(new TimeSpan(12, 0, 0));
+            Default.Add(new TimeSpan(12, 0, 0));
         }
 
-        private void CoolTimes()
-        {
-            // patreon $5 35% cooldown times
-            Lines[0].Max = new TimeSpan(0, 3, 15);
-            Lines[1].Max = new TimeSpan(0, 9, 45);
-            Lines[2].Max = new TimeSpan(0, 39, 0);
-            Lines[3].Max = new TimeSpan(2, 0, 0);
-            Lines[4].Max = new TimeSpan(2, 0, 0);
-            Lines[5].Max = new TimeSpan(3, 0, 0);
-            Lines[6].Max = new TimeSpan(3, 54, 0);
-            Lines[7].Max = new TimeSpan(7, 48, 0);
-            Lines[8].Max = new TimeSpan(7, 48, 0);
-            progressBar1.Maximum = 38;
-        }
 
-        private void DefaultTimes()
+        private void LoadTimes(bool cool)
         {
-            Lines[0].Max = new TimeSpan(0, 5, 0);
-            Lines[1].Max = new TimeSpan(0, 15, 0);
-            Lines[2].Max = new TimeSpan(1, 0, 0);
-            Lines[3].Max = new TimeSpan(2, 0, 0);
-            Lines[4].Max = new TimeSpan(2, 0, 0);
-            Lines[5].Max = new TimeSpan(3, 0, 0);
-            Lines[6].Max = new TimeSpan(6, 0, 0);
-            Lines[7].Max = new TimeSpan(12, 0, 0);
-            Lines[8].Max = new TimeSpan(12, 0, 0);
-            progressBar1.Maximum = 60;
+            for (int i = 0; i < Lines.Count; i++)
+            {
+                Lines[i].Max = (cool ? ThirtyFive[i] : Default[i]);
+            }
+
+            progressBar1.Maximum = (cool? 38 : 60) + 4;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -73,7 +79,8 @@ namespace EpicRpgTimer
             Lines.Add(new Timeline("Quest"));
             Lines.Add(new Timeline("Arena"));
             Lines.Add(new Timeline("Miniboss"));
-            CoolTimes();
+
+            LoadTimes(true);
 
             timers = new List<System.Windows.Forms.Timer>();
 
@@ -99,6 +106,8 @@ namespace EpicRpgTimer
                 TextBox tb = (TextBox)this.Controls.Find("textbox" + i, true).First();
                 tb.Text = Lines[i].Max.ToString();
                 tb.KeyUp += Tb_KeyUp;
+                tb.ContextMenuStrip = contextMenuStrip1;
+
             }
 
             this.ActiveControl = progressBar1;
@@ -186,17 +195,9 @@ namespace EpicRpgTimer
 
         private void rb35_CheckedChanged(object sender, EventArgs e)
         {
-            if (rb35.Checked)
-            {
-                CoolTimes();
-            }
-            else
-            {
-                DefaultTimes();
-            }
+            LoadTimes(rb35.Checked);
 
             progressBar1.Value = 0;
-            progressBar1.Maximum += 2;
             pbar.Stop();
 
             for (int i = 0; i < Lines.Count; i++)
@@ -240,10 +241,12 @@ namespace EpicRpgTimer
                 " - Added \"always on top\"\n" +
                 "v1.3\n" +
                 " - Added hunt progress bar\n" +
-                "v1.3.1 \n" +
+                "v1.3.1\n" +
                 " - Now clears hunt bar when change cd preset\n" +
                 " - Tacked on 2 seconds to hunt bar\n" +
-                "" +
+                "v1.3.2\n" +
+                " - Fixed a bug in the added seconds to the hunt bar\n" +
+                " - Added right click remove custom on timer boxes\n" +
                 "", "About");
         }
 
@@ -266,6 +269,7 @@ namespace EpicRpgTimer
             }
 
         }
+        
         private void pbar_Tick(object sender, EventArgs e)
         {
             if(progressBar1.Value >= progressBar1.Maximum)
@@ -276,6 +280,27 @@ namespace EpicRpgTimer
             {
                 progressBar1.PerformStep();
             }
+        }
+
+        private void removeCustomTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get the parent of the menuitem and menu, being the textbox, just to get it's number
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            ContextMenuStrip strip = (ContextMenuStrip)item.Owner;
+            int num = int.Parse(((TextBox)strip.SourceControl).Name.Last().ToString());
+
+            // reset button text
+            ((Button)this.Controls.Find("button" + num, true).First()).Text = "Go";
+            
+            timers[num].Stop();
+            
+            // set time
+            Lines[num].Max = (rb35.Checked? ThirtyFive[num] : Default[num]);
+            
+            // reset textbox
+            TextBox tb = (TextBox)this.Controls.Find("textbox" + num, true).First();
+            tb.Text = Lines[num].Max.ToString();
+            tb.BackColor = System.Drawing.SystemColors.Window;
         }
     }
 }

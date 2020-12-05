@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.textBox0 = new System.Windows.Forms.TextBox();
             this.button0 = new System.Windows.Forms.Button();
@@ -67,7 +68,10 @@
             this.label7 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeCustomTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox0
@@ -457,6 +461,20 @@
             this.progressBar1.TabIndex = 40;
             this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeCustomTimeToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(192, 26);
+            // 
+            // removeCustomTimeToolStripMenuItem
+            // 
+            this.removeCustomTimeToolStripMenuItem.Name = "removeCustomTimeToolStripMenuItem";
+            this.removeCustomTimeToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.removeCustomTimeToolStripMenuItem.Text = "Remove Custom Time";
+            this.removeCustomTimeToolStripMenuItem.Click += new System.EventHandler(this.removeCustomTimeToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -502,6 +520,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -547,6 +566,8 @@
         private System.Windows.Forms.CheckBox cbAOT;
         private System.Windows.Forms.Label lbNotif;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem removeCustomTimeToolStripMenuItem;
     }
 }
 
